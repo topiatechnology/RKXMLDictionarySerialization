@@ -68,7 +68,7 @@
         // Initialization code here.
         xml = [ NSMutableString string];
         if (withHeader)
-            [ xml appendString @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"];
+            [ xml appendString:@"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"];
         nodes = [[NSMutableArray alloc] init]; 
         treeNodes = [[NSMutableArray alloc] init]; 
         isRoot = YES;
@@ -95,7 +95,7 @@
 
 -(NSString *)getXML
 {
-    NSString * temp = [ NSString stringFromString: xml];
+    NSString * temp = [ NSString stringWithString:xml];
     temp = [temp stringByReplacingOccurrencesOfString:@"</(null)><(null)>" withString:@"\n"];
     temp = [temp stringByAppendingFormat:@"\n</%@>",passDict];
     xml = [ temp mutableCopy ] ;

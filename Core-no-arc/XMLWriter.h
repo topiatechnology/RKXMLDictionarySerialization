@@ -7,7 +7,7 @@
 @interface XMLWriter : NSObject{
 @private
     NSMutableArray* nodes;
-    NSString* xml;
+    NSMutableString* xml;
     NSMutableArray* treeNodes;
     BOOL isRoot;
     NSString* passDict;

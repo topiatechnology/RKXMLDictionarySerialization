@@ -24,7 +24,7 @@
                 {
                     [self serialize:objects];
                     if(!isRoot)
-                        xml = [xml stringByAppendingFormat:@"</%@><%@>",[treeNodes lastObject],[treeNodes lastObject]];
+                        [xml appendFormat:@"</%@><%@>",[treeNodes lastObject],[treeNodes lastObject]];
                     else
                         isRoot = FALSE;
                     int value = [[nodes lastObject] intValue];
@@ -42,9 +42,9 @@
                 {
 //                    NSLog(@"We came in");
                     [treeNodes addObject:key];
-                    xml = [xml stringByAppendingFormat:@"<%@>",key];
+                    [xml appendFormat:@"<%@>",key];
                     [self serialize:[root objectForKey:key]];
-                    xml =[xml stringByAppendingFormat:@"</%@>",key];
+                    [xml appendFormat:@"</%@>",key];
                     [treeNodes removeLastObject];
                 } else {
                     isRoot = FALSE;
@@ -57,7 +57,7 @@
 //            if ([root hasPrefix:"PREFIX_STRING_FOR_ELEMENT"])
 //            is element
 //            else
-            xml = [xml stringByAppendingFormat:@"%@",root];
+            [xml appendFormat:@"%@",root];
         }
 }
 
@@ -66,14 +66,14 @@
     self = [super init];
     if (self) {
         // Initialization code here.
-        xml = @"";
+        xml = [ NSMutableString string];
         if (withHeader)
-            xml = @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
+            [ xml appendString @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"];
         nodes = [[NSMutableArray alloc] init]; 
         treeNodes = [[NSMutableArray alloc] init]; 
         isRoot = YES;
         passDict = [[dictionary allKeys] lastObject];
-        xml = [xml stringByAppendingFormat:@"<%@>\n",passDict];
+        [xml appendFormat:@"<%@>\n",passDict];
         [self serialize:dictionary];
     }
     
@@ -95,8 +95,10 @@
 
 -(NSString *)getXML
 {
-    xml = [xml stringByReplacingOccurrencesOfString:@"</(null)><(null)>" withString:@"\n"];
-    xml = [xml stringByAppendingFormat:@"\n</%@>",passDict];
+    NSString * temp = [ NSString stringFromString: xml];
+    temp = [temp stringByReplacingOccurrencesOfString:@"</(null)><(null)>" withString:@"\n"];
+    temp = [temp stringByAppendingFormat:@"\n</%@>",passDict];
+    xml = [ temp mutableCopy ] ;
     return xml;
 }
 
